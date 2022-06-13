@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="search">
+
+    <form action="/docent/list" method="get" class="actionForm">
+
+        <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+        <div class="input-group">
+            <div class="input-group-prepend" style="">
+                <select class="form-select" name="type">
+                    <option value="t" th:selected="${pageRequestDTO.type =='t'}">이름</option>
+                    <option value="c" th:selected="${pageRequestDTO.type =='c'}">지역</option>
+                    <option value="w" th:selected="${pageRequestDTO.type =='w'}">설명</option>
+                </select>
+                <div id="search">
+                    <input type="text" class="form-control" name="keyword" placeholder="Search.."
+                           th:value="${pageRequestDTO.keyword}">
+                </div>
+                <div class="input-group-append">
+                    <button class="button primary icon solid fa-search searchBtn" type="submit">Search</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<section layout:fragment="content">
+
+    <div class="cards" style="width: 18rem; height:auto; flex: auto;" th:each="dto:${responseDTO.dtoList}">
+        <div class="cards-body" th:with="link = ${pageRequestDTO.getLink()}">
+
+            <img th:src="@{/view/{image}(image = ${dto.image})}" class="cards-img-top cards"
+                 style="width:230px; height: 230px; text-align: center">
+            <div class="cards-body-header" style="padding-bottom: 50px">
+                <p style="text-align:center" class="cards-text">[[${dto.classify}]]</p>
+                <p style="text-align:center; font-weight: bold; color: #000000" class="cards-title">[[${dto.title}]]</p>
+            </div>
+            <div class="cards-body-footer">
+                <a th:href="|@{/docent/read(bno =${dto.bno})}&${link}|" class="button primary" style="bottom: auto; ">정보 보기</a>
+            </div>
+        </div>
+    </div>
+    <div style="float: bottom;">
+        <ul class="pagination">
+            <li class="page-item" th:if="${responseDTO.prev}">
+                <a class="button" th:data-num="${responseDTO.start -1}">Previous</a>
+            </li>
+            <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                <li>
+                    <a th:class="${responseDTO.page == i}?'page active':'page'" th:data-num="${i}">[[${i}]]</a>
+                </li>
+            </th:block>
+
+            <li class="page-item" th:if="${responseDTO.next}">
+                <a class="page-link" th:data-num="${responseDTO.end + 1}">Next</a>
+            </li>
+        </ul>
+    </div>
+        <button onclick="topFunction()" id="upBtn" class="fa-solid fa-caret-up"></button>
+        <button onclick="downFunction()" id="downBtn" class="fa-solid fa-caret-up"></button>
+
+
+
+</section><!--end card body-->
+
+<script layout:fragment="script" th:inline="javascript">
+    (function (d, m) {
+        var kommunicateSettings =
+            {"appId": "202167a7f56e0db29364f2264282ebb0", "popupWidget": true, "automaticChatOpenOnNavigation": true};
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+        var h = document.getElementsByTagName("head")[0];
+        h.appendChild(s);
+        window.kommunicate = m;
+        m._globals = kommunicateSettings;
+    })(document, window.kommunicate || {});
+    /* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        if (target.tagName !== 'A') {
+            return
+        }
+
+        const num = target.getAttribute("data-num")
+
+        const formObj = document.querySelector(".actionForm")
+
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+
+        formObj.submit();
+
+    }, false)
+
+
+
+
+
+    //Get the button:
+    mybutton = document.getElementById("upBtn");
+    downButton = document.getElementById("downBtn");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+
+</script>
+
+
