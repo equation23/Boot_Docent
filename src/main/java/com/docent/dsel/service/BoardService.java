@@ -6,7 +6,6 @@ import com.docent.dsel.dto.PageResponseDTO;
 
 public interface BoardService {
 
-        Long register(BoardDTO boardDTO);
 
         BoardDTO readOne(Long bno);
 

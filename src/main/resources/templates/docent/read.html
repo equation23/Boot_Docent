@@ -30,7 +30,12 @@
     <h2>[[${dto.title}]]</h2>
     <h3>[[${dto.classify}]]</h3>
     <div style="width: 50vh; height: 50vh; float:left; margin-right:150px;">
+        <th:block th:if="${dto.image} != null">
         <img th:src="@{/view/{image}(image = ${dto.image})}" style="flex: auto; height: 50vh; width: 50vh">
+        </th:block>
+        <th:block th:if="${dto.image} == null">
+            <img th:src="@{/defaultImage?fileName=no_image.jpg}" style="flex: auto; height: 50vh; width: 50vh">
+        </th:block>
     </div>
     <div id="map" style="width:50vh;height:50vh; float:left; flex: auto"></div>
     <div style="clear:both; padding-bottom: 100px">

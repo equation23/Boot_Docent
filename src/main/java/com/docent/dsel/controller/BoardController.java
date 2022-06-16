@@ -3,7 +3,9 @@ package com.docent.dsel.controller;
 import com.docent.dsel.dto.BoardDTO;
 import com.docent.dsel.dto.PageRequestDTO;
 import com.docent.dsel.dto.PageResponseDTO;
+import com.docent.dsel.dto.UserBoardDTO;
 import com.docent.dsel.service.BoardService;
+import com.docent.dsel.service.UserBoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/docent")
 public class BoardController {
     private final BoardService boardService;
+    private final UserBoardService userboardService;
 
     @GetMapping("/main")
     public void getMain(){
@@ -37,5 +40,12 @@ public class BoardController {
 
         model.addAttribute("dto", boardDTO);
 
+    }
+    @GetMapping("/userBoard")
+    public void getUserBoard(PageRequestDTO pageRequestDTO, Model model){
+
+        PageResponseDTO<UserBoardDTO> responseDTO =userboardService.list(pageRequestDTO);
+
+        model.addAttribute("responseDTO", responseDTO);
     }
 }

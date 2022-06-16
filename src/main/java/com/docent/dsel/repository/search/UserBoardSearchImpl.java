@@ -1,7 +1,8 @@
 package com.docent.dsel.repository.search;
 
 import com.docent.dsel.entity.Board;
-import com.docent.dsel.entity.QBoard;
+import com.docent.dsel.entity.QUserBoard;
+import com.docent.dsel.entity.UserBoard;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
@@ -11,18 +12,17 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import java.util.List;
 
-public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardSearch {
+public class UserBoardSearchImpl extends QuerydslRepositorySupport implements UserBoardSearch{
 
-    public BoardSearchImpl(){
-        super(Board.class);
+
+    public UserBoardSearchImpl(){
+        super(UserBoard.class);
     }
 
-
     @Override
-    public Page<Board> searchAll(String[] types, String keyword, Pageable pageable) {
-
-        QBoard board = QBoard.board;
-        JPQLQuery<Board> query = from(board);
+    public Page<UserBoard> userBoardSearchAll(String[] types, String keyword, Pageable pageable) {
+        QUserBoard userBoard = QUserBoard.userBoard;
+        JPQLQuery<UserBoard> query = from(userBoard);
 
         if( (types != null && types.length > 0) && keyword != null ){ //검색 조건과 키워드가 있다면
 
@@ -32,13 +32,13 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
                 switch (type){
                     case "t":
-                        booleanBuilder.or(board.title.contains(keyword));
+                        booleanBuilder.or(userBoard.title.contains(keyword));
                         break;
                     case "c":
-                        booleanBuilder.or(board.location.contains(keyword));
+                        booleanBuilder.or(userBoard.content.contains(keyword));
                         break;
                     case "w":
-                        booleanBuilder.or(board.introduce.contains(keyword));
+                        booleanBuilder.or(userBoard.nickName.contains(keyword));
                         break;
                 }
             }//end for
@@ -46,21 +46,16 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         }//end if
 
         //bno > 0
-        query.where(board.bno.gt(0L));
+        query.where(userBoard.ubno.gt(0L));
 
         //paging
         this.getQuerydsl().applyPagination(pageable, query);
 
-        List<Board> list = query.fetch();
+        List<UserBoard> list = query.fetch();
 
         long count = query.fetchCount();
 
         return new PageImpl<>(list, pageable, count);
 
     }
-
-
 }
-
-
-

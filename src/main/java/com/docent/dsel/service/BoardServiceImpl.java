@@ -1,6 +1,6 @@
 package com.docent.dsel.service;
 
-import com.docent.dsel.domain.Board;
+import com.docent.dsel.entity.Board;
 import com.docent.dsel.dto.BoardDTO;
 import com.docent.dsel.dto.PageRequestDTO;
 import com.docent.dsel.dto.PageResponseDTO;
@@ -26,17 +26,6 @@ public class BoardServiceImpl implements BoardService{
     private final ModelMapper modelMapper;
     private final BoardRepository boardRepository;
 
-
-    @Override
-    public Long register(BoardDTO boardDTO) {
-
-        Board board = modelMapper.map(boardDTO, Board.class);
-        log.info("register...." + board);
-
-        Board result = boardRepository.save(board);
-
-        return result.getBno();
-    }
 
     @Override
     public BoardDTO readOne(Long bno) {

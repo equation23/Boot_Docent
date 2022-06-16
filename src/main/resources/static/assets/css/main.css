@@ -1431,10 +1431,10 @@ ul.pagination {
           background-color: #f67878; }
         ul.pagination li > .page.active:active {
           background-color: #f45c5c; }
-    ul.pagination li:first-child {
-      padding-right: 0.75em; }
-    ul.pagination li:last-child {
-      padding-left: 0.75em; }
+    /*ul.pagination li:first-child {*/
+    /*  padding-right: 0.75em; }*/
+    /*ul.pagination li:last-child {*/
+    /*  padding-left: 0.75em; }*/
   /*@media screen and (max-width: 480px) {*/
   /*  ul.pagination li:nth-child(n+2):nth-last-child(n+2) {*/
   /*    display: none; }*/

@@ -2,10 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/basic.html}">
-
 <div layout:fragment="search">
 
-    <form action="/docent/list" method="get" class="actionForm">
+    <form action="/docent/userBoard" method="get" class="actionForm">
 
         <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
         <div class="input-group">
@@ -26,27 +25,29 @@
         </div>
     </form>
 </div>
-<section layout:fragment="content">
 
-    <div class="cards" style="width: 19rem; height:auto; flex: auto;" th:each="dto:${responseDTO.dtoList}">
-        <div class="cards-body" th:with="link = ${pageRequestDTO.getLink()}">
-            <th:block th:if="${dto.image} != null">
-            <img th:src="@{/view/{image}(image = ${dto.image})}" class="cards-img-top cards"
-                 style="width:240px; height: 240px; text-align: center">
-            </th:block>
-            <th:block th:if="${dto.image} == null">
-                <img th:src="@{/defaultImage?fileName=no_image.jpg}" class="cards-img-top cards"
-                     style="width:240px; height: 240px; text-align: center">
-            </th:block>
-            <div class="cards-body-header" style="padding-bottom: 50px">
-                <p style="text-align:center" class="cards-text">[[${dto.classify}]]</p>
-                <p style="text-align:center; font-weight: bold; color: #000000" class="cards-title">[[${dto.title}]]</p>
-            </div>
-            <div class="cards-body-footer">
-                <a th:href="|@{/docent/read(bno =${dto.bno})}&${link}|" class="button primary" style="bottom: auto; ">정보 보기</a>
-            </div>
-        </div>
-    </div>
+<section layout:fragment="content">
+    <h4>게시판</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">Title</th>
+            <th scope="col">Writer</th>
+            <th scope="col">RegDate</th>
+        </tr>
+        </thead>
+        <tbody th:with="link = ${pageRequestDTO.getLink()}">
+        <tr th:each="dto:${responseDTO.dtoList}">
+            <th scope="row">[[${dto.ubno}]]</th>
+            <td>
+                <a> [[${dto.title}]]</a>
+            </td>
+            <td>[[${dto.nickName}]]</td>
+            <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
+        </tr>
+        </tbody>
+    </table>
     <div style="float: bottom; ">
         <ul class="pagination" style="display: flex; flex-flow:row nowrap; justify-content: center" >
             <li class="page-item" th:if="${responseDTO.prev} ">
@@ -63,13 +64,9 @@
             </li>
         </ul>
     </div>
-        <button onclick="topFunction()" id="upBtn" class="fa-solid fa-caret-up"></button>
+    <button onclick="topFunction()" id="upBtn" class="fa-solid fa-caret-up"></button>
 
-
-
-
-</section><!--end card body-->
-
+</section>
 <script layout:fragment="script" th:inline="javascript">
     (function (d, m) {
         var kommunicateSettings =
@@ -129,5 +126,3 @@
     }
 
 </script>
-
-

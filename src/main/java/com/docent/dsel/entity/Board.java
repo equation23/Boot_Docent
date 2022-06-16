@@ -1,4 +1,4 @@
-package com.docent.dsel.domain;
+package com.docent.dsel.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+
 public class Board {
     @Id
     private Long bno;
