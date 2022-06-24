@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="search">
+
+    <form action="/docent/userBoard" method="get" class="actionForm">
+
+        <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+        <div class="input-group">
+            <div class="input-group-prepend" >
+                <select class="form-select" name="type">
+                    <option value="t" th:selected="${pageRequestDTO.type =='t'}">제목</option>
+                    <option value="c" th:selected="${pageRequestDTO.type =='c'}">내용</option>
+                    <option value="w" th:selected="${pageRequestDTO.type =='w'}">닉네임</option>
+                </select>
+                <div id="search">
+                    <input type="text" class="form-control" name="keyword" placeholder="Search.."
+                           th:value="${pageRequestDTO.keyword}">
+                </div>
+                <div class="input-group-append" style="float: right">
+                    <button class="button primary icon solid fa-search searchBtn" type="submit">Search</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<section layout:fragment="content">
+    <h2>[[${dto.title}]]</h2>
+    <span>[[${dto.content}]]</span>
+</section>

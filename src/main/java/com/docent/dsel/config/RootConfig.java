@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RootConfig {
-
+//Model Mapper 설정
     @Bean
     public ModelMapper getMapper() {
         ModelMapper modelMapper = new ModelMapper();

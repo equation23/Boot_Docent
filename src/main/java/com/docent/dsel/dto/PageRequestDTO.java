@@ -23,7 +23,7 @@ public class PageRequestDTO {
     @Builder.Default
     private int size = 9;
 
-    private String type; // 검색의 종류 t,c, w, tc,tw, twc
+    private String type; // 검색의 종류 t,c, w
 
     private String keyword;
 
@@ -33,6 +33,7 @@ public class PageRequestDTO {
         }
         return type.split("");
     }
+    //페이지당 글 수
     public void setSize(int size) {
         this.size = size < 9? 9: size;
     }
@@ -46,6 +47,7 @@ public class PageRequestDTO {
 
     private String link;
 
+    //링크
     public String getLink() {
 
             if(link == null){

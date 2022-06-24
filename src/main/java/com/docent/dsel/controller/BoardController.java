@@ -22,30 +22,44 @@ public class BoardController {
     private final BoardService boardService;
     private final UserBoardService userboardService;
 
-    @GetMapping("/main")
-    public void getMain(){
-
-    }
+    //리스트 페이지
     @GetMapping("/list")
-    public void getList(PageRequestDTO pageRequestDTO, Model model){
+    public void getList(PageRequestDTO pageRequestDTO, Model model) {
 
         PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
 
         model.addAttribute("responseDTO", responseDTO);
     }
+
+    //유적,명소 read페이지
     @GetMapping("/read")
-    public void read(Long bno, PageRequestDTO pageRequestDTO, Model model){
+    public void read(Long bno, PageRequestDTO pageRequestDTO, Model model) {
 
         BoardDTO boardDTO = boardService.readOne(bno);
 
         model.addAttribute("dto", boardDTO);
 
     }
+    //사용자 게시판
     @GetMapping("/userBoard")
-    public void getUserBoard(PageRequestDTO pageRequestDTO, Model model){
+    public void getUserBoard(PageRequestDTO pageRequestDTO, Model model) {
 
-        PageResponseDTO<UserBoardDTO> responseDTO =userboardService.list(pageRequestDTO);
+        PageResponseDTO<UserBoardDTO> responseDTO = userboardService.list(pageRequestDTO);
 
         model.addAttribute("responseDTO", responseDTO);
+    }
+    //사용자 게시판 read 페이지
+    @GetMapping("/userBoardRead")
+
+    public void getUserBoardRead(Long bno, PageRequestDTO pageRequestDTO, Model model) {
+
+        UserBoardDTO userBoardDTO = userboardService.readOne(bno);
+
+        model.addAttribute("dto", userBoardDTO);
+
+    }
+    @GetMapping("/boardRegister")
+    public void getUserBoardRegister(PageRequestDTO pageRequestDTO) {
+
     }
 }

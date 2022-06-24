@@ -1654,6 +1654,7 @@ input[type="reset"].primary,
 input[type="button"].primary,
 button.primary,
 .button.primary {
+  font-family: "문화재돌봄체 Regular", serif;
   background-color: #f56a6a;
   box-shadow: none;
   color: #ffffff !important; }
