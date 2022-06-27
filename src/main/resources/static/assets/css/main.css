@@ -5,6 +5,18 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
+@font-face {
+  font-family: 'Dolbomche_B';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/Dolbomche_B.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Dolbomche_R';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/Dolbomche_R.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,
@@ -92,7 +104,7 @@ body {
 /* Type */
 body, input, select, textarea {
   color: #7f888f;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Dolbomche_R", sans-serif;
   font-size: 13pt;
   font-weight: 400;
   line-height: 1.65; }
@@ -112,6 +124,7 @@ a {
   -ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
   transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
   border-bottom: dotted 1px;
+  font-family: "Dolbomche_R",sans-serif;
   color: #f56a6a;
   text-decoration: none; }
   a:hover {
@@ -128,11 +141,12 @@ em, i {
   font-style: italic; }
 
 p {
+  font-family: 'Dolbomche_R',sans-serif;
   margin: 0 0 2em 0; }
 
 h1, h2, h3, h4, h5, h6 {
   color: #3d4449;
-  font-family: "Roboto Slab", serif;
+  font-family: 'Dolbomche_B', "sans-serif";
   font-weight: 700;
   line-height: 1.5;
   margin: 0 0 1em 0; }
@@ -1600,7 +1614,7 @@ button,
   color: #f56a6a !important;
   cursor: pointer;
   display: inline-block;
-  font-family: "Roboto Slab", serif;
+  font-family: "Dolbomche_B", serif;
   font-size: 0.8em;
   font-weight: 700;
   height: 3.5em;

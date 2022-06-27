@@ -8,14 +8,16 @@
     <form action="/docent/list" method="get" class="actionForm">
 
         <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
-        <div class="input-group">
-            <div class="input-group-prepend" style="">
-                <select class="form-select" name="type">
-                    <option value="t" th:selected="${pageRequestDTO.type =='t'}">이름</option>
-                    <option value="c" th:selected="${pageRequestDTO.type =='c'}">지역</option>
-                    <option value="w" th:selected="${pageRequestDTO.type =='w'}">설명</option>
-                </select>
-                <div id="search">
+        <div class="input-group" >
+            <div class="input-group-prepend">
+                <div style="float: left;width: 30%">
+                    <select class="form-select" name="type"  >
+                        <option value="t" th:selected="${pageRequestDTO.type =='t'}">이름</option>
+                        <option value="c" th:selected="${pageRequestDTO.type =='c'}">지역</option>
+                        <option value="w" th:selected="${pageRequestDTO.type =='w'}">설명</option>
+                    </select>
+                </div>
+                <div id="search" style="float: left;width: 70%; padding-bottom: 10px" >
                     <input type="text" class="form-control" name="keyword" placeholder="Search.."
                            th:value="${pageRequestDTO.keyword}">
                 </div>
@@ -29,12 +31,12 @@
 <section layout:fragment="content">
     <h2>[[${dto.title}]]</h2>
     <h3>[[${dto.classify}]]</h3>
-    <div style="width: 50vh; height: 50vh; float:left; margin-right:150px;">
+    <div style="width: 50vh; height: 50vh; float:left; margin-right:150px; flex: auto">
         <th:block th:if="${dto.image} != null">
-        <img th:src="@{/view/{image}(image = ${dto.image})}" style="flex: auto; height: 50vh; width: 50vh">
+        <img th:src="@{/view/{image}(image = ${dto.image})}" style="flex: auto; height: 50vh; width: 50vh;">
         </th:block>
         <th:block th:if="${dto.image} == null">
-            <img th:src="@{/defaultImage?fileName=no_image.jpg}" style="flex: auto; height: 50vh; width: 50vh">
+            <img th:src="@{/defaultImage?fileName=no_image.jpg}" style="flex: content; height: 50vh; width: 50vh">
         </th:block>
     </div>
     <div id="map" style="width:50vh;height:50vh; float:left; flex: auto"></div>

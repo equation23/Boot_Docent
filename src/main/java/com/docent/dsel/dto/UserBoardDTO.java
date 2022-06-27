@@ -12,6 +12,8 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -34,5 +36,6 @@ public class UserBoardDTO {
 
     private LocalDateTime updateDate;
 
+    private List<String> fileList; //첨부 파일의 경로를 보관하는 리스트
 
 }

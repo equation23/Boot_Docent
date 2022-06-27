@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -59,7 +60,12 @@ public class BoardController {
 
     }
     @GetMapping("/boardRegister")
-    public void getUserBoardRegister(PageRequestDTO pageRequestDTO) {
-
+    public void getBoardRegister(PageRequestDTO pageRequestDTO) {
+    }
+    @PostMapping("/boardRegister")
+    public String postBoardRegister(UserBoardDTO userBoardDTO){
+        Long ubno = userboardService.register(userBoardDTO);
+        log.info(userBoardDTO);
+        return "redirect:/docent/userBoard";
     }
 }
