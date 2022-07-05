@@ -40,13 +40,13 @@
                 </div>
 
                 <div>
+<!--                    <div>-->
+<!--                        <span class="input-group-text">글 번호</span>-->
+<!--                        <input type="text" class="form-control" th:value="${dto.ubno}">-->
+<!--                    </div>-->
                     <div>
-                        <span class="input-group-text">글 <번호></번호></span>
-                        <input type="text" class="form-control" th:value="${dto.ubno}">
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">제목</span>
-                        <input type="text" class="form-control" th:value="${dto.title}">
+                        <h2 style="text-align: left;float: left">제목 :</h2>
+                        <h2 type="text" class="form-control" th:value="${dto.title}">[[${dto.title}]]</h2>
                     </div>
 
                     <div class="input-group mb-3">
