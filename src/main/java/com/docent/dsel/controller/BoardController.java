@@ -1,9 +1,6 @@
 package com.docent.dsel.controller;
 
-import com.docent.dsel.dto.BoardDTO;
-import com.docent.dsel.dto.PageRequestDTO;
-import com.docent.dsel.dto.PageResponseDTO;
-import com.docent.dsel.dto.UserBoardDTO;
+import com.docent.dsel.dto.*;
 import com.docent.dsel.service.BoardService;
 import com.docent.dsel.service.UserBoardService;
 import lombok.RequiredArgsConstructor;
@@ -64,8 +61,15 @@ public class BoardController {
     }
     @PostMapping("/boardRegister")
     public String postBoardRegister(UserBoardDTO userBoardDTO){
-        Long ubno = userboardService.register(userBoardDTO);
+        userboardService.register(userBoardDTO);
         log.info(userBoardDTO);
         return "redirect:/docent/userBoard";
+
+    }
+    @GetMapping("/map")
+    public void getMap(UserBoardDTO userBoardDTO,PageRequestDTO pageRequestDTO, Model model){
+        ListResponseDTO<BoardDTO> responseDTO =   boardService.readAll(pageRequestDTO);
+        model.addAttribute("dtoList", responseDTO.getDtoList());
+        log.info(responseDTO.getDtoList());
     }
 }

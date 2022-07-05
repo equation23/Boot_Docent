@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
       layout:decorate="~{layout/basic.html}">
 
 <div layout:fragment="search">
@@ -40,18 +40,17 @@
                 </div>
 
                 <div>
-<!--                    <div>-->
-<!--                        <span class="input-group-text">글 번호</span>-->
-<!--                        <input type="text" class="form-control" th:value="${dto.ubno}">-->
-<!--                    </div>-->
                     <div>
                         <h2 style="text-align: left;float: left">제목 :</h2>
-                        <h2 type="text" class="form-control" th:value="${dto.title}">[[${dto.title}]]</h2>
+                        <h2>[[${dto.title}]]</h2>
                     </div>
-
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">작성자</span>
-                        <input type="text" class="form-control" th:value="${dto.did}" readonly>
+                    <div style="float: left;text-align: left; padding-right: 3rem">
+                        <span>글 번호</span>
+                        <span class="box"> [[${dto.ubno}]]</span>
+                    </div>
+                    <div style="padding-bottom: 2rem">
+                        <span>작성자</span>
+                        <span class="box">[[${dto.did}]]</span>
                     </div>
 
                     <span class="input-group-text">내용</span>
@@ -73,11 +72,8 @@
                         <input type="text" class="form-control"
                                th:value="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
                     </div>
-
                 </div><!--end card body-->
             </div>
-
-
         </div><!--end card-->
     </div><!-- end col-->
 

@@ -1,6 +1,7 @@
 package com.docent.dsel.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Formula;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
@@ -25,4 +26,8 @@ public class Board {
 
     @LastModifiedDate
     private LocalDateTime updatedate;
+
+//   @Formula("(select count(1) from tbl_doc where status='LOCATION')")
+//   private int locationCnt;
+
 }
