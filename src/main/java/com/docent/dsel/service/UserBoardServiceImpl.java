@@ -27,10 +27,12 @@ public class UserBoardServiceImpl implements UserBoardService{
 
     @Override
     public Long register(UserBoardDTO userBoardDTO) {
-        UserBoard userBoard = modelMapper.map(userBoardDTO ,UserBoard.class);
-
+//        UserBoard userBoard = modelMapper.map(userBoardDTO ,UserBoard.class);
+        UserBoard userBoard = dtoToEntity(userBoardDTO);
         UserBoard result = userBoardRepository.save(userBoard);
-
+        log.info("----------------------------");
+        log.info(userBoard);
+        log.info(userBoard.getImgSet());
         return result.getUbno();
     }
 

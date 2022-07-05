@@ -21,7 +21,7 @@ public class PageRequestDTO {
     private int page = 1;
 
     @Builder.Default
-    private int size = 9;
+    private int size = 12;
 
     private String type; // 검색의 종류 t,c, w
 
@@ -35,7 +35,7 @@ public class PageRequestDTO {
     }
     //페이지당 글 수
     public void setSize(int size) {
-        this.size = size < 9? 9: size;
+        this.size = size < 12? 12: size;
     }
 
     public Pageable getPageable(String...props) {

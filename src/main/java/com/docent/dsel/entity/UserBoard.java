@@ -7,6 +7,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -42,7 +44,25 @@ public class UserBoard {
     private LocalDateTime updateDate;
 
 
-//    @ElementCollection(fetch = FetchType.LAZY)
-//    @Builder.Default
-//    private Set<BoardImage> imgSet = new HashSet<>();
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<UserBoardImage> imgSet = new HashSet<>();
+
+    public void change(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+
+    public void addImage(String fileLink){
+
+        UserBoardImage image = UserBoardImage.builder().fileLink(fileLink)
+                .ord(imgSet.size())
+                .build();
+        imgSet.add(image);
+    }
+
+    public void clearImgSet() {
+
+        imgSet.clear();
+    }
 }

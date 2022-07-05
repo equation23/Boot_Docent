@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="search">
+
+    <form action="/docent/userBoard" method="get" class="actionForm">
+
+        <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div style="float: left;width: 30%">
+                    <select class="form-select" name="type">
+                        <option value="t" th:selected="${pageRequestDTO.type =='t'}">제목</option>
+                        <option value="c" th:selected="${pageRequestDTO.type =='c'}">내용</option>
+                        <option value="w" th:selected="${pageRequestDTO.type =='w'}">닉네임</option>
+                    </select>
+                </div>
+                <div id="search" style="float: left;width: 70%; padding-bottom: 10px">
+                    <input type="text" class="form-control" name="keyword" placeholder="Search.."
+                           th:value="${pageRequestDTO.keyword}">
+                </div>
+                <div class="input-group-append" style="float: right">
+                    <button class="button primary icon solid fa-search searchBtn" type="submit">Search</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<section layout:fragment="content">
+    <form method="post" action="/docent/boardRegister">
+        <div class="row gtr-uniform">
+            <div class="col-6 col-12-xsmall">
+                <input type="text" name="title" value="" placeholder="제목"/>
+            </div>
+            <div class="col-6 col-12-xsmall">
+                <input type="text" name="nickName" value="" placeholder="작성자"/>
+            </div>
+            <div class="col-6 col-12-xsmall">
+                <input type="text" name="did" value="TEST" placeholder="ID"/>
+            </div>
+            <div class="col-12">
+                <textarea name="content" placeholder="내용을 입력하세요" rows="6"></textarea>
+            </div>
+        </div>
+        <div style="text-align: right">
+            <button type="submit" class="primary submitBtn">등록</button>
+        </div>
+        <div class="input-group mb-3">
+            <div class="uploadFileData">
+                <button type="button" class="btn-open-popup">이미지 업로드</button>
+            </div>
+        </div>
+    </form>
+    <div>
+        <div class="col ">
+            <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal">
+        <div class="modal-content">
+            <div class="row mt-3">
+                <div class="col ">
+                    <div class="container-fluid d-flex" style="flex-wrap: wrap;">
+                    </div>
+                </div>
+            </div>
+            <input type="file" name="files">
+            <button type="button" class="button icon solid fa-download uploadBtn">업로드</button>
+            <button class="close" style="text-align: right">닫기</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</section>
+
+<script layout:fragment="script" th:inline="javascript">
+    const modal = document.querySelector(".modal");
+    const btnOpenPopup = document.querySelector(".btn-open-popup");
+    const closeBtn = document.querySelector(".close")
+    btnOpenPopup.addEventListener("click", function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        modal.style.display = "block"
+    }, false)
+    closeBtn.addEventListener("click", function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        modal.style.display = "none"
+    }, false)
+
+    document.querySelector(".uploadBtn").addEventListener("click", function (e) {
+
+        const formObj = new FormData();
+
+        const fileInput = document.querySelector("input[name='files']")
+
+        console.log(fileInput.files)
+
+        const files = fileInput.files
+
+        for (let i = 0; i < files.length; i++) {
+            formObj.append("files", files[i]);
+        }
+
+
+        uploadToServer(formObj).then(result => {
+            //console.log(result)
+            for (const uploadResult of result) {
+                showUploadFile(uploadResult)
+            }
+            modal.style.display = "none"
+        }).catch(e => {
+            modal.style.display = "none"
+        })
+
+
+    }, false)
+
+    async function uploadToServer(formObj) {
+
+        console.log("upload to server......")
+        console.log(formObj)
+
+        const response = await axios({
+            method: 'post',
+            url: '/upload',
+            data: formObj,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        return response.data
+    }
+
+    async function removeFileToServer(uuid, fileName) {
+
+        const response = await axios.delete(`/remove/${uuid}_${fileName}`)
+
+        return response.data
+
+    }
+
+    const uploadResult = document.querySelector(".uploadResult")
+
+    function showUploadFile({uuid, fileName, link}) {
+
+        const str = `<div class="card col-4">
+            <div >
+                ${fileName}
+                <button class="btn-sm btn-danger" onclick="javascript:removeFile('${uuid}', '${fileName}', this)" >X</button>
+            </div>
+            <div>
+                 <img src="/boardImgView/${link}" >
+            </div>
+        </div>`
+
+        uploadResult.innerHTML += str
+        console.log("이미지 잘 들어가냐" + uploadResult.querySelectorAll("img"))
+    }
+
+    function removeFile(uuid, fileName, obj) {
+
+        const targetDiv = obj.closest(".card")
+
+        removeFileToServer(uuid, fileName).then(data => {
+            targetDiv.remove()
+        })
+    }
+
+    document.querySelector(".submitBtn").addEventListener("click", function (e) {
+
+        e.preventDefault()
+        e.stopPropagation()
+        const target = document.querySelector(".uploadFileData")
+        const uploadFiles = uploadResult.querySelectorAll("img")
+
+        let str = ''
+
+        for (let i = 0; i < uploadFiles.length; i++) {
+            const uploadFile = uploadFiles[i]
+            const imgLink = uploadFile.getAttribute("src")
+
+            str += `<input type='hidden' name='fileList' value="${imgLink}">`
+        }
+
+        target.innerHTML = str;
+
+        document.querySelector("form").submit();
+
+
+    }, false)
+</script>
