@@ -9,7 +9,7 @@
 
         <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
         <div class="input-group">
-            <div class="input-group-prepend" >
+            <div class="input-group-prepend">
                 <div style="float: left;width: 30%">
                     <select class="form-select" name="type">
                         <option value="t" th:selected="${pageRequestDTO.type =='t'}">제목</option>
@@ -29,6 +29,57 @@
     </form>
 </div>
 <section layout:fragment="content">
-    <h2>[[${dto.title}]]</h2>
-    <span>[[${dto.content}]]</span>
+
+    <div class="row mt-3">
+        <div class="col">
+            <div>
+                <div class="float-end" style="float:right;" th:with="link = ${pageRequestDTO.getLink()}">
+                    <a th:href="|@{/docent/userBoard}?${link}|">
+                        <button type="button" class="primary button">목록으로</button>
+                    </a>
+                </div>
+
+                <div>
+                    <div>
+                        <span class="input-group-text">글 <번호></번호></span>
+                        <input type="text" class="form-control" th:value="${dto.ubno}">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">제목</span>
+                        <input type="text" class="form-control" th:value="${dto.title}">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">작성자</span>
+                        <input type="text" class="form-control" th:value="${dto.did}" readonly>
+                    </div>
+
+                    <span class="input-group-text">내용</span>
+                    <div class="box" style="width: 60rem;flex: auto">
+                        <div th:if='${dto.fileList != null && dto.fileList.size() > 0 }'
+                             class="container-fluid d-flex uploadResult"
+                             style="flex-wrap: wrap;">
+                            <div th:each="imgLink:${dto.fileList}" th:if="${imgLink.split('_').length > 2}">
+                                <div>
+                                    <img th:src="|${imgLink}|">
+                                </div>
+                            </div><!-- card -->
+                        </div>
+                        <span>[[${dto.content}]]</span>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">작성일</span>
+                        <input type="text" class="form-control"
+                               th:value="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+                    </div>
+
+                </div><!--end card body-->
+            </div>
+
+
+        </div><!--end card-->
+    </div><!-- end col-->
+
+
 </section>

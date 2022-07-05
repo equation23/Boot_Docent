@@ -6,6 +6,8 @@ import com.docent.dsel.dto.PageResponseDTO;
 import com.docent.dsel.dto.UserBoardDTO;
 import com.docent.dsel.entity.UserBoard;
 
+import java.util.stream.Collectors;
+
 
 public interface UserBoardService {
     Long register(UserBoardDTO userBoardDTO);
@@ -30,6 +32,27 @@ public interface UserBoardService {
         }
 
         return userBoard;
+    }
+
+    default UserBoardDTO entityToDto(UserBoard userBoard) {
+
+        UserBoardDTO dto = UserBoardDTO.builder()
+                .ubno(userBoard.getUbno())
+                .title(userBoard.getTitle())
+                .content(userBoard.getContent())
+                .did(userBoard.getDid())
+                .nickName(userBoard.getNickName())
+                .regDate(userBoard.getRegDate())
+                .updateDate(userBoard.getUpdateDate())
+                .build();
+
+        if(userBoard.getImgSet() != null && userBoard.getImgSet().size() > 0) {
+            dto.setFileList(
+                    userBoard.getImgSet().stream().map(userBoardImage -> userBoardImage.getFileLink())
+                            .collect(Collectors.toList()));
+        }
+
+        return dto;
     }
 
 }

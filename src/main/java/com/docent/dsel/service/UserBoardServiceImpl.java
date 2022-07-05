@@ -39,11 +39,11 @@ public class UserBoardServiceImpl implements UserBoardService{
     @Override
     public UserBoardDTO readOne(Long ubno) {
 
-        Optional<UserBoard> result = userBoardRepository.findById(ubno);
+        Optional<UserBoard> result = userBoardRepository.getWithImage(ubno);
 
         UserBoard userBoard = result.orElseThrow();
 
-        UserBoardDTO userBoardDTO = modelMapper.map(userBoard, UserBoardDTO.class);
+        UserBoardDTO userBoardDTO = entityToDto(userBoard);
 
         return userBoardDTO;
     }
